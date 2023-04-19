@@ -4,12 +4,13 @@ import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.ImmutableTag;
 import io.micrometer.core.instrument.Tag;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.*;
 
-@AllArgsConstructor
+/**
+ * Micrometer multi-tagged counter class
+ */
 @Data
 public class MultiTaggedCounter {
     private PrometheusMeterRegistry registry;
@@ -18,6 +19,14 @@ public class MultiTaggedCounter {
     private String[] tagNames;
     private Map<String, Counter> counters;
 
+    /**
+     * Constructor for multi-tagged counter
+     *
+     * @param registry    - prometheus registry
+     * @param name        - name of the meter
+     * @param description - description of the meter
+     * @param tagNames    - set of tag names associated with the meter
+     */
     public MultiTaggedCounter(PrometheusMeterRegistry registry, String name, String description, String... tagNames) {
         this.registry = registry;
         this.name = name;
@@ -26,6 +35,11 @@ public class MultiTaggedCounter {
         this.counters = new HashMap<>();
     }
 
+    /**
+     * Increments the multi-tagged counter
+     *
+     * @param tagValues - set of tag values to increment
+     */
     public void increment(String... tagValues) {
         String valuesString = Arrays.toString(tagValues);
         if (tagValues.length != tagNames.length) {
@@ -43,6 +57,12 @@ public class MultiTaggedCounter {
         counter.increment();
     }
 
+    /**
+     * Increments a multi-tagged counter using supplied value
+     *
+     * @param value     - value to increment
+     * @param tagValues - set of tag values to increment
+     */
     public void increment(long value, String... tagValues) {
         String valuesString = Arrays.toString(tagValues);
         if (tagValues.length != tagNames.length) {

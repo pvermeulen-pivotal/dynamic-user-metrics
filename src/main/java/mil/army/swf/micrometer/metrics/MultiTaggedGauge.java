@@ -9,6 +9,9 @@ import mil.army.swf.micrometer.metrics.wrapper.DoubleWrapper;
 
 import java.util.*;
 
+/**
+ * Micrometer multi-tagged gauge class
+ */
 @Data
 public class MultiTaggedGauge {
     private PrometheusMeterRegistry registry;
@@ -17,6 +20,14 @@ public class MultiTaggedGauge {
     private String[] tagNames;
     private Map<String, DoubleWrapper> gauges;
 
+    /**
+     * Constructor for multi-tagged gauge
+     *
+     * @param registry    - prometheus registry
+     * @param name        - name of the meter
+     * @param description - description of the meter
+     * @param tagNames    - set of tag names associated with the meter
+     */
     public MultiTaggedGauge(PrometheusMeterRegistry registry, String name, String description, String... tagNames) {
         this.registry = registry;
         this.name = name;
@@ -25,6 +36,12 @@ public class MultiTaggedGauge {
         gauges = new HashMap<>();
     }
 
+    /**
+     * Sets a multi-tagged gauge value
+     *
+     * @param value     - value to set the gauge
+     * @param tagValues - set of tag values to set the gauge
+     */
     public void set(double value, String... tagValues) {
         String valuesString = Arrays.toString(tagValues);
         if (tagValues.length != tagNames.length) {

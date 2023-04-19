@@ -8,6 +8,9 @@ import lombok.Data;
 
 import java.util.*;
 
+/**
+ * Micrometer multi-tagged timer class
+ */
 @Data
 public class MultiTaggedTimer {
     private PrometheusMeterRegistry registry;
@@ -16,6 +19,14 @@ public class MultiTaggedTimer {
     private String[] tagNames;
     private Map<String, Timer> timers;
 
+    /**
+     * Constructor for multi-tagged timer
+     *
+     * @param registry    - prometheus registry
+     * @param name        - name of the meter
+     * @param description - description of the meter
+     * @param tagNames    - set of tag names associated with the meter
+     */
     public MultiTaggedTimer(PrometheusMeterRegistry registry, String name, String description, String... tagNames) {
         this.registry = registry;
         this.name = name;
@@ -24,6 +35,12 @@ public class MultiTaggedTimer {
         timers = new HashMap<>();
     }
 
+    /**
+     * Creates a multi-tagged timer if not found otherwise returns the timer
+     *
+     * @param tagValues - set of tag values used to retrieve the timer
+     * @return - multi-tagged timer
+     */
     public Timer getTimer(String... tagValues) {
         String valuesString = Arrays.toString(tagValues);
         if (tagValues.length != tagNames.length) {

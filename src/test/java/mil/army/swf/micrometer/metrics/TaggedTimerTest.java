@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TaggedTimerTest {
 
     @Test
-    public void taggedTimerTest(){
+    public void taggedTimerTest() {
         PrometheusMeterRegistry registry = MetricHelper.getRegistry();
         TaggedTimer taggedTimer = new TaggedTimer(registry, "some-timer", "desc", "action");
         taggedTimer.getTimer("walk-the-dog").record(new Runnable() {

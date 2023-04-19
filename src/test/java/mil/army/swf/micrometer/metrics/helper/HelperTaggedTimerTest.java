@@ -24,7 +24,7 @@ class HelperTaggedTimerTest {
         Meter meter = MetricHelper.getRegistry().getMeters().get(0);
         if (meter instanceof Timer) {
             Timer timer = (Timer) meter;
-            double time =  timer.totalTime(TimeUnit.SECONDS);
+            double time = timer.totalTime(TimeUnit.SECONDS);
             Writer writer = new FileWriter("logs/helpTaggedTimer");
             MetricHelper.getRegistry().scrape(writer);
             writer.close();
