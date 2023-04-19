@@ -1,4 +1,4 @@
-package mil.army.swf.micrometer.metrics;
+package mil.army.swf.micrometer.metrics.helper;
 
 import io.micrometer.core.instrument.Meter;
 import io.micrometer.core.instrument.Timer;
