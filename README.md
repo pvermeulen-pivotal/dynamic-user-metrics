@@ -1,4 +1,4 @@
-# Dynamic Tagged Metrics
+# Dynamic Tagged User Metrics
 
 #### Vector
 
