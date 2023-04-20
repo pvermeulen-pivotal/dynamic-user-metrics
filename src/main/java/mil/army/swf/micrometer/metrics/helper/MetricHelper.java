@@ -3,8 +3,6 @@ package mil.army.swf.micrometer.metrics.helper;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 
-import lombok.extern.slf4j.Slf4j;
-
 import mil.army.swf.micrometer.metrics.*;
 import mil.army.swf.micrometer.metrics.exception.InvalidTimeUnitException;
 import mil.army.swf.micrometer.metrics.wrapper.MetricWrapper;
@@ -17,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Helper class for creating and updating metrics that will be scrapped by Prometheus
  */
-@Slf4j
 public class MetricHelper {
 
     private static PrometheusMeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
