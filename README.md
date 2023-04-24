@@ -221,6 +221,22 @@ Refer to the javadoc for details:
 
 ## Spring Annotations
 
+    @Timed    
+
+    @Counted
+
+
+	@RestController
+	public class CounterController {
+
+		@Timed(value = "", longTask = true, percentiles = { 0.5,0.9 }, histogram = true, description = "", extraTags = {})
+		@Counted(value = "", recordFailuresOnly = false, extraTags = {}, description = "")
+		@GetMapping("/counter")
+		public String test(HttpServletRequest servletRequest) {
+			myCounter.increment(10d);
+			return String.valueOf(myCounter.count());
+		}
+	}
 
 
 ## Spring Actuator

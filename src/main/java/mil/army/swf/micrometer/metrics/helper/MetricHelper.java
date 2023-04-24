@@ -6,6 +6,8 @@ import io.micrometer.prometheus.PrometheusMeterRegistry;
 import mil.army.swf.micrometer.metrics.*;
 import mil.army.swf.micrometer.metrics.exception.InvalidTimeUnitException;
 import mil.army.swf.micrometer.metrics.wrapper.MetricWrapper;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 
@@ -15,11 +17,16 @@ import java.util.concurrent.TimeUnit;
 /**
  * Helper class for creating and updating metrics that will be scrapped by Prometheus
  */
+@Configuration
 public class MetricHelper {
 
-    private static PrometheusMeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+    private static PrometheusMeterRegistry registry;
 
     private static HashMap<String, MetricWrapper> wrappers = new HashMap<>();
+
+    public MetricHelper(PrometheusMeterRegistry registry) {
+        MetricHelper.registry = registry;
+    }
 
     /**
      * Get the meter registry
