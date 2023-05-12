@@ -490,7 +490,7 @@ public class MetricHelper {
      * @param timeUnit time unit of the time value
      * @param timeValue time value
      *
-     * @throws InvalidTimeUnitException - invalid time unit specified
+     * @throws InvalidTimeUnitException invalid time unit specified
      */
     public static void recordMultiTagTime(String name, TimeUnit timeUnit, long timeValue) throws InvalidTimeUnitException {
         MetricWrapper metricWrapper = getWrapper(name);
