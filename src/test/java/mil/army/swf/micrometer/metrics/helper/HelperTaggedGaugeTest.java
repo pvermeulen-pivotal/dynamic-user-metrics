@@ -2,7 +2,9 @@ package mil.army.swf.micrometer.metrics.helper;
 
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.Meter;
-import mil.army.swf.micrometer.metrics.helper.MetricHelper;
+import io.micrometer.prometheus.PrometheusConfig;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileWriter;
@@ -13,10 +15,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class HelperTaggedGaugeTest {
+
+    @BeforeAll
+    public static void initialize() {
+        MetricHelper.setRegistry(new PrometheusMeterRegistry(PrometheusConfig.DEFAULT));
+    }
+
     @Test
     public void helpTaggedGauge() throws IOException {
-        MetricHelper.createGauge("aswf", "ASWF Application Teams", "teams");
-        MetricHelper.setGauge("aswf", "vector", 100);
+        MetricHelper.createTagGauge("aswf", "ASWF Application Teams", "team", "vector");
+        MetricHelper.setTagGauge("aswf", 100);
         assertEquals(1, MetricHelper.getRegistry().getMeters().size());
         Meter meter = MetricHelper.getRegistry().getMeters().get(0);
         if (meter instanceof Gauge) {

@@ -41,4 +41,5 @@ public class MetricWrapper {
 
     private MetricType type;
     private Object metric;
+    private DoubleWrapper doubleWrapper;
 }

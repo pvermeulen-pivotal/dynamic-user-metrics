@@ -2,21 +2,29 @@ package mil.army.swf.micrometer.metrics.helper;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Meter;
-import mil.army.swf.micrometer.metrics.helper.MetricHelper;
+import io.micrometer.prometheus.PrometheusConfig;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class HelperTaggedCounterTest {
 
+    @BeforeAll
+    public static void initialize() {
+        MetricHelper.setRegistry(new PrometheusMeterRegistry(PrometheusConfig.DEFAULT));
+    }
+
     @Test
     public void helpTaggedCounter() throws IOException {
-        MetricHelper.createCounter("aswf", "ASWF Application Teams", "teams");
-        MetricHelper.incrementCounter("aswf", "vector");
+        MetricHelper.createTagCounter("aswf", "ASWF Application Teams", "team", "vector");
+        MetricHelper.incrementTagCounter("aswf");
         Meter meter = MetricHelper.getRegistry().getMeters().get(0);
         if (meter instanceof Counter) {
             Counter counter = (Counter) meter;
@@ -33,8 +41,8 @@ class HelperTaggedCounterTest {
 
     @Test
     public void helpTaggedCounterIncrementAmount() throws IOException {
-        MetricHelper.createCounter("aswf", "ASWF Application Teams", "teams");
-        MetricHelper.incrementCounter("aswf", "vector", 10);
+        MetricHelper.createTagCounter("aswf", "ASWF Application Teams", "team", "vector");
+        MetricHelper.incrementTagCounter("aswf", 10);
         Meter meter = MetricHelper.getRegistry().getMeters().get(0);
         if (meter instanceof Counter) {
             Counter counter = (Counter) meter;

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * Wrapper class for a gauge value
+ * Wrapper value class for a gauge value
  */
 @AllArgsConstructor
 @Data

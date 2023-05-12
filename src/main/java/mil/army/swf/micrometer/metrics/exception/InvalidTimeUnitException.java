@@ -5,7 +5,7 @@ package mil.army.swf.micrometer.metrics.exception;
  */
 public class InvalidTimeUnitException extends Exception {
     /**
-     * Constructor for exception
+     * Constructor for InvalidTimeUnit exception
      *
      * @param message - error message
      */

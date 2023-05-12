@@ -2,7 +2,9 @@ package mil.army.swf.micrometer.metrics.helper;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Meter;
-import mil.army.swf.micrometer.metrics.helper.MetricHelper;
+import io.micrometer.prometheus.PrometheusConfig;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileWriter;
@@ -13,19 +15,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HelperMultiTaggedCounterTest {
 
+    @BeforeAll
+    public static void initialize() {
+        MetricHelper.setRegistry(new PrometheusMeterRegistry(PrometheusConfig.DEFAULT));
+    }
+
     @Test
     public void helpMultiTaggedCounterTagsNotEqualTagNames() {
-        MetricHelper.createMultiTagCounter("aswf", "ASWF Application Teams", "teams", "color");
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            MetricHelper.incrementMultiTagCounter("aswf", "10", "vector", "green", "red");
+            MetricHelper.createMultiTagCounter("aswf", "ASWF Application Teams", "team color".split(" "), "vector".split(" "));
         });
         assertTrue(thrown.getMessage().startsWith("Counter tags mismatch!"));
     }
 
     @Test
     public void helpMultiTaggedCounter() throws IOException {
-        MetricHelper.createMultiTagCounter("aswf", "ASWF Application Teams", "teams", "color");
-        MetricHelper.incrementMultiTagCounter("aswf", "vector", "green");
+        MetricHelper.createMultiTagCounter("aswf", "ASWF Application Teams", "team color".split(" "), "vector blue".split(" "));
+        MetricHelper.incrementMultiTagCounter("aswf");
         assertEquals(1, MetricHelper.getRegistry().getMeters().size());
         Meter meter = MetricHelper.getRegistry().getMeters().get(0);
         if (meter instanceof Counter) {
@@ -43,8 +49,8 @@ class HelperMultiTaggedCounterTest {
 
     @Test
     public void helpMultiTaggedCounterIncrementAmount() throws IOException {
-        MetricHelper.createMultiTagCounter("aswf", "ASWF Application Teams", "teams", "color");
-        MetricHelper.incrementMultiTagCounter("aswf", 10, "vector", "green");
+        MetricHelper.createMultiTagCounter("aswf", "ASWF Application Teams", "team color".split(" "), "vector blue".split(" "));
+        MetricHelper.incrementMultiTagCounter("aswf", 10);
         assertEquals(1, MetricHelper.getRegistry().getMeters().size());
         Meter meter = MetricHelper.getRegistry().getMeters().get(0);
         if (meter instanceof Counter) {
