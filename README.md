@@ -390,7 +390,10 @@ The following is an example on how to use these annotations:
 To properly wire the MetricHelper requires adding a component scan on the Spring Boot main class.
 
     @SpringBootApplication
-    @ComponentScan(value = "mil.army.swf.micrometer.metrics.*")
+    @ComponentScan(basePackages = {
+        "mil.army.swf.micrometer.metrics.*", // this is for component scan of MetricsHelper
+        "mil.army.swf.kronos.*" // this is for component scan of your application
+    })
     public class ExampleMetricsApplication {
         public static void main(String[] args) {
             SpringApplication.run(ExampleMetricsApplication.class, args);
@@ -418,3 +421,9 @@ In order for prometheus to scrape the server for metrics, requires configuration
     management.endpoint.prometheus.enabled=true
     management.endpoints.web.exposure.include='*'
     management.endpoints.web.base-path='/actuator'
+
+
+@ComponentScan(basePackages = {
+"mil.army.swf.micrometer.metrics.*",
+"mil.army.aswf.metrics.*"
+})
