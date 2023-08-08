@@ -67,7 +67,7 @@ public class MetricHelper {
      * @param name wrapper name
      * @return metric wrapper
      */
-    private static MetricWrapper getWrapper(String name) {
+    public static MetricWrapper getWrapper(String name) {
         return wrappers.get(name);
     }
 
@@ -90,10 +90,10 @@ public class MetricHelper {
      * @param name meter name
      * @param increment increment value
      */
-    public static void incrementTagCounter(String name, long increment) {
+    public static void incrementTagCounter(String name, Long increment) {
         MetricWrapper metricWrapper = getWrapper(name);
         if (metricWrapper != null && metricWrapper.getType().equals(MetricWrapper.MetricType.T_COUNTER)) {
-            ((Counter) metricWrapper.getMetric()).increment(increment);
+            ((Counter) metricWrapper.getMetric()).increment(increment.doubleValue());
         } else {
             log.error("no tagged counter {} found to increment", name);
         }
@@ -137,10 +137,10 @@ public class MetricHelper {
      * @param name meter name
      * @param increment increment number
      */
-    public static void incrementMultiTagCounter(String name, long increment) {
+    public static void incrementMultiTagCounter(String name, Long increment) {
         MetricWrapper metricWrapper = getWrapper(name);
         if (metricWrapper != null && metricWrapper.getType().equals(MetricWrapper.MetricType.MT_COUNTER)) {
-            ((Counter) metricWrapper.getMetric()).increment(increment);
+            ((Counter) metricWrapper.getMetric()).increment(increment.doubleValue());
         } else {
             log.error("no multi-tagged counter {} found to increment", name);
         }
